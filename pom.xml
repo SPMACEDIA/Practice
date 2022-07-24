@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId><!--公司id-->
+    <artifactId>mvnStudy</artifactId><!--项目名称-->
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>maven-api</module>
+        <module>Mybatis</module>
+    </modules><!--版本-->
+    <packaging>pom</packaging>
+    <!--
+        父工程需要遵循两点，
+        1、packaging中的填写pom
+        2、只保留pom文件（父工程不写代码）
+    -->
+
+    <!--pom的统一管理版本号-->
+    <properties>
+        <!--properties 中我们可以自定义标签-->
+        <!--命名格式一般规定为 项目名称+版本号-->
+        <mysql-connector-java-version>5.1.47</mysql-connector-java-version>
+        <!--当项目名称只有一单词 我们可以用‘.’ 代替 ‘-’-->
+        <junit.version>4.12</junit.version>
+        <java.version>7</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <slf4j.version>1.7.5</slf4j.version>
+        <spring.version>3.2.13.RELEASE</spring.version>
+        <springframework-version>3.1.1.RELEASE</springframework-version>
+        <mybatis.version>3.5.7</mybatis.version>
+    </properties>
+
+
+
+
+    <!--SNAPSHOT（快照） 如果是版本的话。本地仓库的版本为1.0 如果文件当前项目的文件更新，本地仓库如果更新 需要更改版本号
+    如果是快照，每次构建项目，maven会自动从远程仓库获取
+    -->
+
+<!--    <repositories>&lt;!&ndash;配置远程仓库&ndash;&gt;-->
+<!--        <repository>-->
+<!--            <id>alimaven</id>&lt;!&ndash;&ndash;&gt;-->
+<!--            <name>aliyun maven</name>-->
+<!--            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>-->
+<!--            <releases>-->
+<!--                <enabled>true</enabled>-->
+<!--            </releases>-->
+<!--            <snapshots>-->
+<!--                <enabled>false</enabled>-->
+<!--            </snapshots>-->
+<!--        </repository>-->
+<!--    </repositories>-->
+
+    <dependencyManagement><!-- 放在dependencyManagement标签中的依赖 不会别子项目无条件继承-->
+        <dependencies>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+    <!--添加依赖-->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>3.0.5.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>1.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.2</version>
+        </dependency>
+
+    </dependencies>
+
+    <!--maven 插件 -->
+    <build>
+        <!--插件类型分为两种
+        build plugins 在构建是执行
+        reporting plugins 在网页生成是执行
+        -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>id.clean</id>
+                        <phase>clean</phase><!--阶段-->
+                        <goals>
+                            <goal>run</goal><!--目标-->
+                            <!--使用plugin自带的helpgoal：例如直接使用 mvn compiler:help可以查看对应的compiler插件有多个少个goals。-->
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <echo>clean phase</echo>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
+                <!--<configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>-->
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
