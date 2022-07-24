@@ -8,5 +8,7 @@ public class test {
         System.out.println("3");
         System.out.println("master");
         System.out.println("spm");
+        System.out.println("push test");
+
     }
 }
